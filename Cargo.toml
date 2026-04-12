@@ -1,0 +1,21 @@
+[package]
+name = "npr"
+version = "0.1.0"
+edition = "2024"
+description = "Noise Protocol framework implementation in Rust"
+
+[lib]
+name = "npr"
+path = "src/lib.rs"
+
+[[bin]]
+name = "client"
+path = "src/bin/client.rs"
+
+[[bin]]
+name = "server"
+path = "src/bin/server.rs"
+
+[dependencies]
+tokio = { version = "1.51.1", features = ["full"] }
+tun = "0.8.6"
