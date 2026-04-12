@@ -17,5 +17,9 @@ name = "server"
 path = "src/bin/server.rs"
 
 [dependencies]
+hex = "0.4.3"
+subtle = "2.6.1"
+thiserror = "2.0.18"
 tokio = { version = "1.51.1", features = ["full"] }
 tun = "0.8.6"
+zeroize = { version = "1.8.2", features = ["zeroize_derive"] }
