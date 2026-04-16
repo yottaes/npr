@@ -12,8 +12,8 @@ async fn main() {
         .destination((10, 0, 0, 1))
         .up();
 
-    #[cfg(target_os = "macos")]
-    let mut dev = tun::create_as_async(&config).expect("failed to create TUN device, try running with `sudo`");
+    let mut dev = tun::create_as_async(&config)
+        .expect("failed to create TUN device, try running with `sudo`");
 
     let udp_socket = UdpSocket::bind("127.0.0.1:0")
         .await
