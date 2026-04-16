@@ -21,5 +21,11 @@ hex = "0.4.3"
 subtle = "2.6.1"
 thiserror = "2.0.18"
 tokio = { version = "1.51.1", features = ["full"] }
-tun = "0.8.6"
+tun = { version = "0.8.6", features = ["async"] }
+aead = "0.5"
+blake2 = "0.10"
+chacha20poly1305 = "0.10"
+tai64 = "4"
+x25519-dalek = { version = "2.0.1", features = ["getrandom", "static_secrets"] }
 zeroize = { version = "1.8.2", features = ["zeroize_derive"] }
+anyhow = "1.0.102"
