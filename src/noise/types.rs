@@ -25,10 +25,6 @@ impl NoisePrivateKey {
         Self(StaticSecret::random())
     }
 
-    pub(crate) fn new(secret: StaticSecret) -> Self {
-        Self(secret)
-    }
-
     /// From config/uapi.
     pub fn from_hex(hex_str: &str) -> Result<Self, NoiseError> {
         let bytes = hex::decode(hex_str).map_err(|_| NoiseError::InvalidHexFormat)?;
@@ -104,6 +100,11 @@ impl NoiseEphemeralKey {
         Self(StaticSecret::random())
     }
 
+    #[cfg(test)]
+    pub(crate) fn new(secret: StaticSecret) -> Self {
+        Self(secret)
+    }
+
     pub fn public_key(&self) -> NoisePublicKey {
         NoisePublicKey(DalekPublicKey::from(&self.0))
     }
@@ -125,6 +126,10 @@ impl fmt::Debug for NoiseEphemeralKey {
 pub struct NoisePresharedKey([u8; 32]);
 
 impl NoisePresharedKey {
+    pub fn zero() -> Self {
+        Self([0u8; 32])
+    }
+
     pub fn from_hex(hex_str: &str) -> Result<Self, NoiseError> {
         let bytes = hex::decode(hex_str).map_err(|_| NoiseError::InvalidHexFormat)?;
         Self::from_bytes(&bytes)
@@ -143,6 +148,12 @@ impl NoisePresharedKey {
 impl ConstantTimeEq for NoisePresharedKey {
     fn ct_eq(&self, other: &Self) -> subtle::Choice {
         self.0.ct_eq(&other.0)
+    }
+}
+
+impl Default for NoisePresharedKey {
+    fn default() -> Self {
+        Self::zero()
     }
 }
 
