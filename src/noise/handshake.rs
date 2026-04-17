@@ -7,7 +7,7 @@
 use rand_core::{OsRng, RngCore};
 use tai64::Tai64N;
 use thiserror::Error;
-use zeroize::Zeroize;
+use zeroize::{Zeroize, ZeroizeOnDrop};
 
 use crate::noise::{
     crypto::{
@@ -47,6 +47,15 @@ pub struct TransportSession {
     pub handshake_hash: [u8; HASH_LEN],
     pub is_initiator: bool,
 }
+
+impl Drop for TransportSession {
+    fn drop(&mut self) {
+        self.send_key.zeroize();
+        self.receive_key.zeroize();
+    }
+}
+
+impl ZeroizeOnDrop for TransportSession {}
 
 /// Errors produced while building or consuming handshake messages.
 #[derive(Debug, Error)]
@@ -490,6 +499,15 @@ impl HandshakeState {
         self.remote_sender_index = None;
     }
 }
+
+impl Drop for HandshakeState {
+    fn drop(&mut self) {
+        self.chain_key.zeroize();
+        self.precomputed_static_static.zeroize();
+    }
+}
+
+impl ZeroizeOnDrop for HandshakeState {}
 
 fn random_u32() -> u32 {
     OsRng.next_u32()
