@@ -3,6 +3,7 @@ name = "npr"
 version = "0.1.0"
 edition = "2024"
 description = "Noise Protocol framework implementation in Rust"
+publish = false
 
 [lib]
 name = "npr"
